@@ -1,0 +1,26 @@
+name: 'Cache builds'
+description: 'Cache sbt builds'
+
+inputs:
+  cache-version:
+    description: 'Cache version (change to invalidate previous caches)'
+    required: false
+    default: 'v-1'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Prepare build cache
+      uses: actions/cache@v3
+      env:
+        cache-name: cache-build
+      with:
+        path: |
+          target
+          project/target
+          project/project/target
+          core/target
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ inputs.cache-version }}-${{ github.ref }}-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-${{ inputs.cache-version }}-${{ github.ref }}-
+          ${{ runner.os }}-build-${{ env.cache-name }}-${{ inputs.cache-version }}-
