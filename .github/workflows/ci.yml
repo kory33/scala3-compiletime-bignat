@@ -26,6 +26,8 @@ jobs:
           java-version: '21'
           cache: 'sbt'
 
+      - uses: sbt/setup-sbt@v1
+
       - name: Prepare build cache
         uses: ./.github/actions/cache-builds
         with:
