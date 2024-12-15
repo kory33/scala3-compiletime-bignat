@@ -18,12 +18,11 @@ ThisBuild / developers := List(
 )
 
 ThisBuild / semanticdbEnabled := true
-ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.6.0"
 
 ThisBuild / scalacOptions ++= Seq(
   "--deprecation",
   "--explain",
-  "-Ykind-projector:underscores"
+  "-Xkind-projector:underscores"
 )
 
 lazy val core =
