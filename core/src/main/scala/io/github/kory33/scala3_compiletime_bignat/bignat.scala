@@ -65,7 +65,7 @@ object ops {
         unsignedlong.semi_+[BoolAsLong[carry], a]
       ]
     case (EmptyTuple, EmptyTuple, false) => EmptyTuple
-    case (EmptyTuple, EmptyTuple, true)  => 1 *: EmptyTuple
+    case (EmptyTuple, EmptyTuple, true)  => 1L *: EmptyTuple
   }
 
   infix type +[A <: Tuple, B <: Tuple] = carried_+[A, B, false]
