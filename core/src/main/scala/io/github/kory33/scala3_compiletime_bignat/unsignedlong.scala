@@ -39,7 +39,7 @@ object unsignedlong {
     unsignedlong_definitions.impl_carry_semi_+[A, B]
 
   // full-addition
-  type full_+[A <: Long, B <: Long, Carry <: Boolean] =
+  type full_+[A <: Long, B <: Long, Carry <: Boolean] <: Long =
     (Carry, A, B) match {
       case (false, a, b) => a semi_+ b
       case (true, a, b)  => a semi_+ b semi_+ 1L
@@ -48,5 +48,8 @@ object unsignedlong {
     unsignedlong_definitions.impl_carry_full_+[A, B, Carry]
 
   type compare[A <: Long, B <: Long] =
-    If[A < B][Order.Less, If[A > B][Order.Greater, Order.Equal]]
+    If[A < B][
+      ComparisonResult.Less,
+      If[A > B][ComparisonResult.Greater, ComparisonResult.Equal]
+    ]
 }

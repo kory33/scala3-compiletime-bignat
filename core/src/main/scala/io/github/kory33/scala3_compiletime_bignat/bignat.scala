@@ -23,29 +23,29 @@ object ops {
   type compare_impl[
       A <: Tuple /* leading zeros removed */,
       B <: Tuple /* leading zeros removed */
-  ] <: Order =
+  ] <: ComparisonResult =
     (A, B) match {
       case (a *: atail, b *: btail) =>
         compare_impl[atail, btail] match {
-          case Order.Less    => Order.Less
-          case Order.Equal   => compare[a, b]
-          case Order.Greater => Order.Greater
+          case ComparisonResult.Less    => ComparisonResult.Less
+          case ComparisonResult.Equal   => unsignedlong.compare[a, b]
+          case ComparisonResult.Greater => ComparisonResult.Greater
         }
 
-      case (EmptyTuple, b *: _)     => Order.Less
-      case (a *: _, EmptyTuple)     => Order.Greater
-      case (EmptyTuple, EmptyTuple) => Order.Equal
+      case (EmptyTuple, b *: _)     => ComparisonResult.Less
+      case (a *: _, EmptyTuple)     => ComparisonResult.Greater
+      case (EmptyTuple, EmptyTuple) => ComparisonResult.Equal
     }
 
   type compare[A <: Tuple, B <: Tuple] =
     compare_impl[RemoveLeadingZeros[A], RemoveLeadingZeros[B]]
 
-  infix type <[A <: Tuple, B <: Tuple] = compare[A, B] <::< Order.Less
-  infix type >[A <: Tuple, B <: Tuple] = compare[A, B] <::< Order.Greater
+  infix type <[A <: Tuple, B <: Tuple] = compare[A, B] <::< ComparisonResult.Less
+  infix type >[A <: Tuple, B <: Tuple] = compare[A, B] <::< ComparisonResult.Greater
   infix type <=[A <: Tuple, B <: Tuple] = (A < B) || (A <::< B)
   infix type >=[A <: Tuple, B <: Tuple] = (A > B) || (A <::< B)
 
-  type carried_+[A <: Tuple, B <: Tuple, Carry <: Boolean] = (A, B, Carry) match {
+  type carried_+[A <: Tuple, B <: Tuple, Carry <: Boolean] <: Tuple = (A, B, Carry) match {
     case (a *: atail, b *: btail, carry) =>
       unsignedlong.full_+[a, b, carry] *: carried_+[
         atail,

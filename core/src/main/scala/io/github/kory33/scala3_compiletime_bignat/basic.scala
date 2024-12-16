@@ -19,7 +19,7 @@ type IfThenElse[Cond <: Boolean, Then, Else] <: Then | Else = Cond match {
 
 type If[Cond <: Boolean] = [Then, Else] =>> IfThenElse[Cond, Then, Else]
 
-type BoolAsLong[B <: Boolean] = B match {
+type BoolAsLong[B <: Boolean] <: 0L | 1L = B match {
   case true  => 1L
   case false => 0L
 }
