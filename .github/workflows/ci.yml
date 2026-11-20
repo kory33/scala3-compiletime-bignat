@@ -15,7 +15,7 @@ on:
 
 jobs:
   lint_and_test:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -37,7 +37,7 @@ jobs:
         run: sbt "scalafmtCheckAll; compile; scalafixAll --check; test"
 
   publish:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
 
     # we wish to publish on tags (non-SNAPSHOT versions)
     # and on master branch (SNAPSHOT versions) as long as lint_and_test passed
@@ -93,7 +93,7 @@ jobs:
           sbt "publishSigned; sonatypeBundleRelease"
 
   create-github-release:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
 
     # when we published a non-SNAPSHOT version
     needs: publish
